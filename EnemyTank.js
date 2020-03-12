@@ -47,7 +47,7 @@ function EnemyTank(game, x, y) {
     this.opposite;
     this.closestTank;
     this.temp = 1000;
-
+    this.type = 'bad';
     
     
     Entity.call(this, game, this.x, this.y);
@@ -69,7 +69,7 @@ EnemyTank.prototype.update = function() {
     var bool = true;
     //Barrell Code
     
-    console.log(this.tankIndex + "tank index");
+ //   console.log(this.tankIndex + "tank index");
     var min = 10000;
     
 
@@ -95,7 +95,7 @@ EnemyTank.prototype.update = function() {
     
 
     if (this.distance < 500 && this.distance > 50) {
-        console.log("fhdfhfdh " + this.game.goodTanks.length);
+     //   console.log("fhdfhfdh " + this.game.goodTanks.length);
         var dy = this.y - this.game.goodTanks[this.closestTank].y;
         var dx = this.x - this.game.goodTanks[this.closestTank].x;
         var theta = Math.atan2(dy, dx); // range (-PI, PI]
@@ -155,7 +155,7 @@ EnemyTank.prototype.update = function() {
 
         for(i = 0; i < this.game.entities.length; i++){
             if(this.game.badTanks[this.tankIndex] === this.game.entities[i]){
-                console.log("YAYAYAYAYAUYYYAYYAYAYAYAYAYAYAYAYAYAYYAYAYAYAYYAYAYAYAYAYYA");
+     //           console.log("YAYAYAYAYAUYYYAYYAYAYAYAYAYAYAYAYAYAYYAYAYAYAYYAYAYAYAYAYYA");
                 this.game.entities[i].removeFromWorld = true;
                 this.game.badTanks[this.tankIndex].removeFromWorld = true; //ask question about how to fully remove from world
             }

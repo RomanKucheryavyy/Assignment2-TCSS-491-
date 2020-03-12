@@ -280,8 +280,8 @@ BulletFire.prototype.update = function () {
         // Entity.prototype.update.call(this);
         // return;
     }
-    console.log(this.targetIndex + "TARAJSHKJDSAHJKSDKJADKSAJHKJ");
-    console.log(this.game.goodTanks.length + "  GOOOOD TANKS LENGTH");
+    // console.log(this.targetIndex + "TARAJSHKJDSAHJKSDKJADKSAJHKJ");
+    // console.log(this.game.goodTanks.length + "  GOOOOD TANKS LENGTH");
     if(this.targetIndex < this.game.badTanks.length && this.type === "good" && this.boundingbox.collide(this.game.badTanks[this.targetIndex].boundingbox)){
         //console.log("anyhintg hapalokhohiahskjdhakjdshlkdajhsjlkdahslkj");
         //console.log(this.targetIndex + "   TARGGET INNNNDEX");
@@ -489,6 +489,75 @@ Explosion.prototype.draw = function () {
     Entity.prototype.draw.call(this);
 };
 
+
+
+window.onload = function () {
+    var list = {};
+
+    var socket = io.connect("http://24.16.255.56:8888");
+  
+    socket.on("load", function (data) {
+
+        gameEngine.entities = [];
+        gameEngine.goodTanks = [];
+        gameEngine.badTanks = [];
+        var desert = new Desert(gameEngine); 
+        gameEngine.addEntity(desert);
+
+        console.log("ENTITIESS " + gameEngine.entities);
+
+    for(i = 0; i < data.data.length; i++){
+
+//        list.push({x: allTanks[i].x, y: allTanks[i].y, type: allTanks[i].type});
+        // for(j = 0; j < data.data.length; j++){
+
+            if(data.data[i].type === 'good'){
+
+                gameEngine.addEntity(new FreindlyTank(gameEngine, data.data[i].x, data.data[i].y))
+                gameEngine.goodTanks.push(gameEngine.entities[gameEngine.entities.length - 1]);
+                
+            }
+
+            if(data.data[i].type === 'bad'){
+
+                // gameEngine.badTanks.y = data.data[i].y;
+                gameEngine.addEntity(new EnemyTank(gameEngine, data.data[i].x, data.data[i].y))
+                gameEngine.badTanks.push(gameEngine.entities[gameEngine.entities.length - 1]);
+
+//            }
+        }
+
+    }
+
+        console.log(data.data);
+    });
+  
+    var text = document.getElementById("text");
+    var saveButton = document.getElementById("save");
+    var loadButton = document.getElementById("load");
+  
+    saveButton.onclick = function () {
+      console.log("save");
+      text.innerHTML = "Saved."
+      socket.emit("save", { studentname: "Roman Kucheryavyy", statename: "TankDominance", data: list});
+    };
+  
+    loadButton.onclick = function () {
+      console.log("load");
+      text.innerHTML = "Loaded."
+      socket.emit("load", { studentname: "Roman Kucheryavyy", statename: "TankDominance" });
+    };
+  
+
+
+
+var canvas = document.getElementById("gameWorld");
+var ctx = canvas.getContext("2d");
+
+var gameEngine = new GameEngine();
+var allTanks = [];
+var list = [];
+
 AM.queueDownload("./img/background/desertTile.png");
 AM.queueDownload("./img/background/crate.png");
 
@@ -509,23 +578,18 @@ AM.queueDownload("./img/tank_green.png");
 AM.queueDownload("./img/Puddle_01.png");
 AM.queueDownload("./img/coin2.png");
 AM.queueDownload("./img/bullet_red_2.png");
-AM.queueDownload("./img/Decor_Items/Container_A.png");
 AM.queueDownload("./img/robot.png");
 AM.queueDownload("./img/tank_red2Barrell.png");
 AM.queueDownload("./img/tank_green2Barrell.png");
 AM.queueDownload("./img/snowball_01.png");
 
 
-AM.queueDownload("./img/TankSprites/vehicleA.png")
-AM.queueDownload("./img/TankSprites/vehicleB.png")
-AM.queueDownload("./img/TankSprites/vehicleC.png")
-
 
 AM.downloadAll(function () {
-    var canvas = document.getElementById("gameWorld");
-    var ctx = canvas.getContext("2d");
+    // var canvas = document.getElementById("gameWorld");
+    // var ctx = canvas.getContext("2d");
 
-    var gameEngine = new GameEngine();
+    // var gameEngine = new GameEngine();
     gameEngine.init(ctx);
     gameEngine.start();
 
@@ -587,6 +651,36 @@ AM.downloadAll(function () {
     gameEngine.goodTanks = goodTanks;
     gameEngine.badTanks = badTanks;
 
+    var goodTanksStore = [];
+    var badTanksStore = [];
+
+
+    // goodTanksStore = gameEngine.goodTanks;
+    // badTanksStore = gameEngine.badTanks;
+
+//    list = [{good: goodTanksStore, bad: badTanksStore, type: }];
+    console.log(list);
+
+
+    for(i = 0; i < gameEngine.goodTanks.length; i++){
+        allTanks.push(gameEngine.goodTanks[i]);
+
+        // goodTankStore[i] = {x: gameEngine.goodTanks[i].x, y: gameEngine.goodTanks[i].y, type: gameEngine.goodTanks[i].type}
+    }
+    
+    for(i = 0; i < gameEngine.badTanks.length; i++){
+        allTanks.push(gameEngine.badTanks[i]);
+        // badTankStore[i] = {x: gameEngine.badTanks[i].x, y: gameEngine.badTanks[i].y, type: gameEngine.badTanks[i].type}
+    }
+
+    for(i = 0; i < gameEngine.goodTanks.length + gameEngine.badTanks.length; i++){
+
+         list.push({x: allTanks[i].x, y: allTanks[i].y, type: allTanks[i].type});
+
+    }
+
+
+
     // gameEngine.addEntity(barrell);
 
     // gameEngine.addEntity(vehicle);
@@ -603,3 +697,6 @@ AM.downloadAll(function () {
 
     console.log("All Done!");
 });
+
+
+};

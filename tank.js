@@ -46,6 +46,7 @@ function FreindlyTank(game, x, y) {
     this.opposite;
     this.closestTank;
     this.temp = 1000;
+    this.type = 'good';
     
     
     Entity.call(this, game, this.x, this.y);
@@ -89,8 +90,8 @@ FreindlyTank.prototype.update = function() {
         
         //console.log(this.game.badTanks.length);
         if (this.distance < 500 && this.distance > 50) {
-            console.log("fhdfhfdh   " + this.tankIndex);
-            console.log("fhdfhfdh " + this.game.badTanks.length);
+         //   console.log("fhdfhfdh   " + this.tankIndex);
+         //   console.log("fhdfhfdh " + this.game.badTanks.length);
             var dy = this.y - this.game.badTanks[this.closestTank].y;
             var dx = this.x - this.game.badTanks[this.closestTank].x;
             var theta = Math.atan2(dy, dx); // range (-PI, PI]
@@ -177,7 +178,7 @@ FreindlyTank.prototype.update = function() {
 
         for(i = 0; i < this.game.entities.length; i++){
             if(this.game.goodTanks[this.tankIndex] === this.game.entities[i]){
-                console.log("YAYAYAYAYAUYYYAYYAYAYAYAYAYAYAYAYAYAYYAYAYAYAYYAYAYAYAYAYYA");
+             //   console.log("YAYAYAYAYAUYYYAYYAYAYAYAYAYAYAYAYAYAYYAYAYAYAYYAYAYAYAYAYYA");
                 this.game.entities[i].removeFromWorld = true;
                 this.game.goodTanks[this.tankIndex].removeFromWorld = true;
             }
@@ -228,7 +229,7 @@ FreindlyTank.prototype.update = function() {
         var tempArray = this.game.goodTanks.concat(this.game.badTanks);
 
         if(this.boundingbox.collide(tempArray[i].boundingbox) && this.tankIndex != i){
-            console.log("WAS A COLLIIIISISISISIISISIS");
+         //   console.log("WAS A COLLIIIISISISISIISISIS");
             this.collision = true;
         } 
 
