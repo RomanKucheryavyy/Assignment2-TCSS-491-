@@ -13,6 +13,8 @@ function GameEngine() {
     this.tanks = []
     this.goodTanks = [];
     this.badTanks = [];
+    this.list = [];
+    this.allTanks = [];
 
     this.entities = [];
     this.ctx = null;

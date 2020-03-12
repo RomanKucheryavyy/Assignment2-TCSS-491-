@@ -491,6 +491,7 @@ Explosion.prototype.draw = function () {
 
 
 
+
 window.onload = function () {
     var list = {};
 
@@ -539,7 +540,7 @@ window.onload = function () {
     saveButton.onclick = function () {
       console.log("save");
       text.innerHTML = "Saved."
-      socket.emit("save", { studentname: "Roman Kucheryavyy", statename: "TankDominance", data: list});
+      socket.emit("save", { studentname: "Roman Kucheryavyy", statename: "TankDominance", data: gameEngine.list});
     };
   
     loadButton.onclick = function () {
@@ -550,13 +551,12 @@ window.onload = function () {
   
 
 
-
 var canvas = document.getElementById("gameWorld");
 var ctx = canvas.getContext("2d");
 
 var gameEngine = new GameEngine();
-var allTanks = [];
-var list = [];
+
+
 
 AM.queueDownload("./img/background/desertTile.png");
 AM.queueDownload("./img/background/crate.png");
@@ -586,6 +586,9 @@ AM.queueDownload("./img/snowball_01.png");
 
 
 AM.downloadAll(function () {
+    
+    var allTanks = [];
+    var list = [];
     // var canvas = document.getElementById("gameWorld");
     // var ctx = canvas.getContext("2d");
 
@@ -663,19 +666,19 @@ AM.downloadAll(function () {
 
 
     for(i = 0; i < gameEngine.goodTanks.length; i++){
-        allTanks.push(gameEngine.goodTanks[i]);
+        gameEngine.allTanks.push(gameEngine.goodTanks[i]);
 
         // goodTankStore[i] = {x: gameEngine.goodTanks[i].x, y: gameEngine.goodTanks[i].y, type: gameEngine.goodTanks[i].type}
     }
     
     for(i = 0; i < gameEngine.badTanks.length; i++){
-        allTanks.push(gameEngine.badTanks[i]);
+        gameEngine.allTanks.push(gameEngine.badTanks[i]);
         // badTankStore[i] = {x: gameEngine.badTanks[i].x, y: gameEngine.badTanks[i].y, type: gameEngine.badTanks[i].type}
     }
 
-    for(i = 0; i < gameEngine.goodTanks.length + gameEngine.badTanks.length; i++){
+    for(i = 0; i < gameEngine.goodTanks.length + gameEngine.badTanks.length - 1; i++){
 
-         list.push({x: allTanks[i].x, y: allTanks[i].y, type: allTanks[i].type});
+         gameEngine.list.push({x: gameEngine.allTanks[i].x, y: gameEngine.allTanks[i].y, type: gameEngine.allTanks[i].type});
 
     }
 

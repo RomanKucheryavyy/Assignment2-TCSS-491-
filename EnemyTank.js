@@ -315,6 +315,14 @@ EnemyTank.prototype.update = function() {
 
     //this.distance = new findClosestTank(this.game.tanks).closestTank;
     //console.log("CLOSEST TANK IS AT INDEX:   " + closestTank);
+
+    this.game.list = [];
+    for(i = 0; i < this.game.goodTanks.length + this.game.badTanks.length - 1; i++){
+
+        this.game.list.push({x: this.game.allTanks[i].x, y: this.game.allTanks[i].y, type: this.game.allTanks[i].type});
+
+   }
+
     Entity.prototype.update.call(this);
 };
 
