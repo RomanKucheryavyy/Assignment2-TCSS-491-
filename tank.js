@@ -150,7 +150,7 @@ FreindlyTank.prototype.update = function() {
     //_____________________________________________________________________________________________________
 
 
-    if (this.shooting && this.cooldown === 200) {
+    if (this.shooting && this.cooldown === 400) {
         bulletShot = new BulletFire(this.game, this.bullet, true, this.x - 16, this.y - 16, this.cursorX, this.cursorY, theta, "good", this.closestTank);
         this.game.addEntity(bulletShot);
         this.shooting = false;
@@ -160,7 +160,7 @@ FreindlyTank.prototype.update = function() {
     this.cooldown--;
 
     if(this.cooldown === 0){
-        this.cooldown = 200;
+        this.cooldown = 400;
     }
     
     //if(this.boundingbox.collide())
@@ -423,6 +423,18 @@ FreindlyTank.prototype.update = function() {
     // }
     this.opposite = false;
     this.speed = 1;
+
+    this.game.allTanks = [];
+    for(i = 0; i < this.game.goodTanks.length; i++){
+        this.game.allTanks.push(this.game.goodTanks[i]);
+
+        // goodTankStore[i] = {x: gameEngine.goodTanks[i].x, y: gameEngine.goodTanks[i].y, type: gameEngine.goodTanks[i].type}
+    }
+    
+    for(i = 0; i < this.game.badTanks.length; i++){
+        this.game.allTanks.push(this.game.badTanks[i]);
+        // badTankStore[i] = {x: gameEngine.badTanks[i].x, y: gameEngine.badTanks[i].y, type: gameEngine.badTanks[i].type}
+    }
 
     this.game.list = [];
     for(i = 0; i < this.game.goodTanks.length + this.game.badTanks.length - 1; i++){

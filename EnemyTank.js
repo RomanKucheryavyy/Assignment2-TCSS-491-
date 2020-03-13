@@ -21,7 +21,7 @@ function EnemyTank(game, x, y) {
     this.moveRightRobotAnimation = new Animation(AM.getAsset("./img/robot.png"),146,0,73,60,1,1,true,false);
     this.moveLeftRobotAnimation = new Animation(AM.getAsset("./img/robot.png"),219,0,73,60,1,1,true,false);
     //this.bulletShot = AM.getAsset("./img/bullet_onlyred.png");
-    this.cooldown = 200;
+    this.cooldown = 400;
     this.counter = 0;
     this.random = this.random = Math.floor(Math.random() * 100);
     this.up = false;
@@ -128,7 +128,7 @@ EnemyTank.prototype.update = function() {
     // if (this.game.click) {
     //     this.shooting = true;
     // }
-    if (this.shooting && this.cooldown === 200 ) {
+    if (this.shooting && this.cooldown === 400 ) {
         bulletShot = new BulletFire(this.game, this.bullet, true, this.x - 16, this.y - 16, this.cursorX, this.cursorY, theta, "bad", this.tankIndex);
         this.game.addEntity(bulletShot);
         this.shooting = false;
@@ -138,7 +138,7 @@ EnemyTank.prototype.update = function() {
     this.cooldown--;
 
     if(this.cooldown === 0){
-        this.cooldown = 200;
+        this.cooldown = 400;
     }
 
 
@@ -315,6 +315,19 @@ EnemyTank.prototype.update = function() {
 
     //this.distance = new findClosestTank(this.game.tanks).closestTank;
     //console.log("CLOSEST TANK IS AT INDEX:   " + closestTank);
+
+    this.game.allTanks = [];
+    for(i = 0; i < this.game.goodTanks.length; i++){
+        this.game.allTanks.push(this.game.goodTanks[i]);
+
+        // goodTankStore[i] = {x: gameEngine.goodTanks[i].x, y: gameEngine.goodTanks[i].y, type: gameEngine.goodTanks[i].type}
+    }
+    
+    for(i = 0; i < this.game.badTanks.length; i++){
+        this.game.allTanks.push(this.game.badTanks[i]);
+        // badTankStore[i] = {x: gameEngine.badTanks[i].x, y: gameEngine.badTanks[i].y, type: gameEngine.badTanks[i].type}
+    }
+
 
     this.game.list = [];
     for(i = 0; i < this.game.goodTanks.length + this.game.badTanks.length - 1; i++){
